@@ -4,16 +4,18 @@ export class Game extends Phaser.Scene {
       super({ key: 'game' });
     }
     init(){
-        this.score = 0;
         this.clock = 0;
+        this.score = 0;
+        this.runningTime = 0;
+        this.stopwatchInterval;
         this.meteoro1 = 0;
         this.meteoro2 = 0;
         this.meteoro3 = 0;
     }
     preload() {
         
-        this.load.image('nave', 'assets/nave-min.png');
-        this.load.image('asteroides', 'assets/Asteroide.png');
+        this.load.image('nave', 'assets/nave.png');
+        this.load.image('asteroides', 'assets/asteroideNew.png');
     //     this.load.image('background', 'images/background.png');
       this.load.image('gameover', 'assets/gameover.png');
     }
@@ -37,7 +39,7 @@ export class Game extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
         // con esto indicamos la colicion del juego 
         this.physics.add.collider(this.naveImage, this.asteroides, this.asteroideImpact, null, this);
-        this.physics.add.collider(this.naveImage, this.asteroides, this.asteroideImpact, null, this);
+        // this.physics.add.collider(this.naveImage, this.asteroides, this.asteroideImpact, null, this);
 
         // creamos los puntos
         this.scoreText = this.add.text(150, 16, 'PUNTOS: 0', { 
@@ -53,10 +55,13 @@ export class Game extends Phaser.Scene {
             fontFamily: 'verdana, arial, sans-serif',
             zIndex:3 
           });
+          this.startTime()
+
+
     }
     newAsteroide() {
         
-        var oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.3, this.game.config.width), -50);
+        var oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.3, this.game.config.width), -40);
         this.physics.add.collider(this.asteroides, this.naveImage);
         let aleatoryPosition = 100 * Phaser.Math.Between(1.3, 2);
          if (oneAsteroide) {
@@ -79,6 +84,9 @@ export class Game extends Phaser.Scene {
      asteroideImpact(naveImage, asteroides) {
      this.gameoverImage.visible = true;
      naveImage.visible = false
+     this.runningTime = 0;
+     clearInterval(this.stopwatchInterval);
+     this.clockText.setText('00:00:00');
         this.scene.pause();
     }
     // futura funcion para disparar desde la nave
@@ -92,9 +100,32 @@ export class Game extends Phaser.Scene {
         this.scoreText.setText('PUNTOS: ' + this.score);
     }
     startTime() {
-        this.clockText++;
-        this.scoreText.setText(this.clock.toString());
+        let Clock = Date.now() - this.clock;
+        this.stopwatchInterval = setInterval(() => {
+            let runningTime = Date.now() - Clock;
+    //      seteamos los datos para que los imprima en la pantalla
+        this.clockText.setText(this.calculateTime(runningTime))
+          }, 1000);
+
+
+        
+
+        
+
     }
+    //              funcion para calcular la hora
+     calculateTime(runningTime){
+        const total_seconds = Math.floor(runningTime/1000);
+        const total_minutes = Math.floor(total_seconds/60);
+        const total_horas = Math.floor(total_minutes/60);
+        
+        const display_seconds = (total_seconds % 60).toString().padStart(2, "0");
+        const display_minutes = (total_minutes % 60).toString().padStart(2, "0");
+        const display_horas = total_horas.toString().padStart(2, "0");
+    
+        return `${display_horas}:${display_minutes}:${display_seconds}`
+      }
+    
     update(time){
         if(this.cursors.left.isDown){
             this.naveImage.setVelocityX(-500);
@@ -110,11 +141,6 @@ export class Game extends Phaser.Scene {
             this.meteoro2 += 1000;
             this.meteoro3 += 1500;
         }
-        // console.log(this.meteoro1.y)
-        // if(this.meteoro1.y > 600 ) {
-        //     console.log('1')
-        //     this.asteroidesEvitados();
-        // }
     }
   
   }
