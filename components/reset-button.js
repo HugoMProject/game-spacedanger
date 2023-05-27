@@ -18,7 +18,8 @@ export class ResetButton{
             });
             this.resetbutton.on('pointerdown', ()=>{
                 this.resetScene.scene.start('game');
-                window.location.reload();
+                // window.location.reload();
             });
         }
+
 } 

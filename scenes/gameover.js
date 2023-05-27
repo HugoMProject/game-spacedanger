@@ -9,7 +9,7 @@ export class GameOver extends Phaser.Scene {
     preload(){
         this.load.image('gameover', 'assets/gameover.png');
         this.load.audio('gameoversample', 'sounds/gameover.ogg');
-        this.restartbutton.preload()
+        this.restartbutton.preload();
     }
     create(){
         this.add.image(500, 300,'background');
@@ -17,5 +17,6 @@ export class GameOver extends Phaser.Scene {
         this.gameOverSample = this.sound.add('gameoversample');
         this.gameOverSample.play();
         this.restartbutton.create();
+        
     }
 }
