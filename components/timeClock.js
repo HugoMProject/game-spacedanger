@@ -24,7 +24,6 @@ export class TimeClock{
             let runningTime = Date.now() - Clock;
     //      seteamos los datos para que los imprima en la pantalla
         this.clockText.setText(`${this.calculateTime(runningTime).toString()}`);
-        // this.clockText.setText(`hola mundo`);
           }, 1000);
 
     }

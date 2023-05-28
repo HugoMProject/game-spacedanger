@@ -9,7 +9,6 @@ const mediaQuery = window.matchMedia("(orientation: portrait)");
 
 const config = {
   type: Phaser.AUTO,
-  // parent: 'container',
   scale:{
     parent: 'container', // ID DEL CONTENEDOR
     width:(mediaQuery.matches ? window.innerWidth : 1000),

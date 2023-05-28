@@ -1,8 +1,8 @@
 
-// import VirtualJoystick from './phaser3-rex-plugins/plugins/virtualjoystick.js';
-import { ScoreGame } from '../components/scoreGame.js'
-import { TimeClock } from '../components/timeClock.js'
-import { JoyStick } from '../components/joyStick.js'
+import { Asteroides } from '../components/asteorides.js';
+import { ScoreGame } from '../components/scoreGame.js';
+import { TimeClock } from '../components/timeClock.js';
+import { NaveSpace } from '../components/naveSpace.js'
 export class Game extends Phaser.Scene {
 
     constructor() {
@@ -10,17 +10,19 @@ export class Game extends Phaser.Scene {
     }
     init(){
         this.timeclock = new TimeClock(this);
+        this.newasteroides = new Asteroides(this);
         this.scoregame = new ScoreGame(this);
-        // this.joystickScene = new JoyStick(this);
-        this.meteoro1 = 0;
+        this.naveSpace = new NaveSpace(this);
     }
     preload() {
-        this.load.image('nave', 'assets/nave.png');
         this.load.image('asteroides', 'assets/asteroideNew.png');
         this.load.image('background', 'https://th.bing.com/th/id/R.a2087a5e90f90bc454a75a6c1ea5c316?rik=LGxsh%2bzXtHLApg&pid=ImgRaw&r=0');
         this.load.image('gameover', 'assets/gameover.png');
+        this.load.image('nave', 'assets/nave.png');
         // sonidos del juego
         this.load.audio('startgamesample', 'sounds/start-game.ogg');
+        let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
+        this.load.plugin('rexvirtualjoystickplugin', url, true);
     }
   
     create() {
@@ -30,27 +32,26 @@ export class Game extends Phaser.Scene {
         this.gameoverImage.visible  = false;
         this.startGameSample = this.sound.add('startgamesample');
         //asteroides
-           this.asteroides = this.physics.add.group({
-            defaultKey: 'asteroides',
+        this.newasteroides.create();
 
-        });
-
-        //c
-    //      this.joystickScene.create();
-
-    //   this.joystickCursors = this.joyStick.createCursorKeys();
+        // creamos el joystick 
+        this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+            x: 855,
+            y: 400,
+            radius: 100,
+            base: this.add.circle(0, 0, 50, 0x888888),
+            thumb: this.add.circle(0, 0, 25, 0xcccccc),
+      });
+      this.joystickCursors = this.joyStick.createCursorKeys();
     
         //nave espacial
-        this.naveImage = this.physics.add.image(500, 555,'nave').setImmovable();
-        this.naveImage.body.allowGravity = false;
-        this.naveImage.setCollideWorldBounds(true)
-        this.naveImage.setData('crash',false)
+      this.naveSpace.create();
         // creamos los sonidos del juego
         
 
         this.cursors = this.input.keyboard.createCursorKeys();
         // con esto indicamos la colicion del juego 
-        this.physics.add.collider(this.naveImage, this.asteroides, this.asteroideImpact, null, this);
+        this.physics.add.collider(this.naveSpace.naveImage, this.newasteroides.asteroides, this.asteroideImpact, null, this);
 
         // creamos los puntos
             this.scoregame.create();
@@ -63,39 +64,17 @@ export class Game extends Phaser.Scene {
           });
           //creamos el reloj
           this.timeclock.create();
-        //   this.newAsteroide()
     }
-    startGame(){
-        let waitGame = setInterval(()=>{
-            console.log('el codigo se a ejecutado debe de iniciar el juego');
-            this.asteroidesEvitados();
-            clearInterval(waitGame);
-        },2000)
-        console.log('se ha ejecutado')
-    }
-    newAsteroide() {
-        // creamos los ateroides y le damos propiedades
-        const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.3, this.game.config.width), -20);
-         if (oneAsteroide) {
-            oneAsteroide.setActive(true)
-                   .setVisible(true)
-                   .setGravityY(200)
-                   .setCollideWorldBounds(true)
-                   .setCircle(30,3,-4)
-                   .setBounce(1, 1)
-                   .setVelocityX(
-                                   (Phaser.Math.Between(0, 1.5) ? 50 : -50)
-                              );
-                  }
-     }
+
 
      //funcion para detener el juego cuando se produsca la colicion
      asteroideImpact(naveImage, asteroides) {
-    this.naveImage.setData('crash', true)
-    this.showGameOver();
-    this.timeclock.stopTime();
-     naveImage.visible = false
-     this.scene.pause();
+        this.naveSpace.naveImage.setData('crash', true)
+        this.showGameOver();
+        this.timeclock.stopTime();
+        this.newasteroides.stopAsteroides();
+        naveImage.visible = false
+        this.scene.pause();
     }
     // futura funcion para disparar desde la nave
     // hitAsteroide(naveImage, asteroides) {
@@ -109,37 +88,18 @@ export class Game extends Phaser.Scene {
 
 
     
-    update(time,delta){
-        // if(this.cursors.left.isDown||this.joystickCursors.left.isDown){
-        //     this.naveImage.setVelocityX(-500);
-        // }else if(this.cursors.right.isDown||this.joystickCursors.right.isDown){
-        //     this.naveImage.setVelocityX(500);
-        // }else {
-        //     this.naveImage.setVelocity(0, 0);
-        // }
-
-
-
-        //               se debe resolver el error del joystick
-        if(this.cursors.left.isDown){
-            this.naveImage.setVelocityX(-500);
-        }else if(this.cursors.right.isDown){
-            this.naveImage.setVelocityX(500);
+    update(){
+        if(this.cursors.left.isDown||this.joystickCursors.left.isDown){
+            this.naveSpace.naveImage.setVelocityX(-500);
+        }else if(this.cursors.right.isDown||this.joystickCursors.right.isDown){
+            this.naveSpace.naveImage.setVelocityX(500);
         }else {
-            this.naveImage.setVelocity(0, 0);
+            this.naveSpace.naveImage.setVelocity(0, 0);
         }
-        if (time > this.meteoro1) {
-            this.newAsteroide();
-            this.meteoro1 += 2000;
-        }
-        if(this.scoregame == 500){
-            // this. showNewlevel();
-            console.log('cambio de nivel')
-        }
+
     }
 
     showGameOver(){
-        this.scene.switch('game')
         this.scene.start('gameover');
     }
     showNewlevel(){
