@@ -42,7 +42,7 @@ export class Game extends Phaser.Scene {
         // creamos el joystick 
         this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
             x: 855,
-            y: 400,
+            y: 480,
             radius: 100,
             base: this.add.circle(0, 0, 50, 0x888888),
             thumb: this.add.circle(0, 0, 25, 0xcccccc),

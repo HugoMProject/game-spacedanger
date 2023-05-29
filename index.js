@@ -7,13 +7,14 @@ import {GameOver} from './scenes/gameover.js';
 const mediaQuery = window.matchMedia("(orientation: portrait)");
 const config = {
   type: Phaser.AUTO,
+  version:0.01,
   scale:{
     parent: 'container', // ID DEL CONTENEDOR
     width:(mediaQuery.matches ? window.innerWidth : 1000),
-    height: (mediaQuery.matches ? window.innerWidth : 600),
+    height: (mediaQuery.matches ? window.innerHeight : 600),
     mode: Phaser.Scale.FIT,
-    autoCenter: Phaser.Scale.CENTER_BOTH
-    // autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+    // autoCenter: Phaser.Scale.CENTER_BOTH
+    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
   },
   scene: [Game,GameOver,Winner],
   physics: {
