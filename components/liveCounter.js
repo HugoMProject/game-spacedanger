@@ -4,31 +4,26 @@ export class LiveCounter {
       this.relatedScene = scene;
       this.initialLives = initialLives;
   }
-  init() {
-    this.score = 0;
-    this.liveCounter = new LiveCounter(this, 3);
-  }
+  init() {}
   loader(){
-    this.load.image('nave', 'assets/nave.png');
-    this.load.audio('livelostsample', 'sounds/live-lost.ogg');
-  }
+    this.load.image('nave', 'assets/nave.png');  }
   create() {
-    let displacement = 60;
-    let firstPosition = 800 - ((this.initialLives - 1) * displacement);
+    this.liveLostSounds = this.relatedScene.sound.add('livelost')
+    let displacement = 50;
+    let firstPosition = 900 - ((this.initialLives - 1) * displacement);
     this.liveImages = this.relatedScene.physics.add.staticGroup({
-      setScale: { x: 0.5, y: 0.5 },
+      setScale: { x: 0.6, y: 0.7 },
       key: 'nave',
       frameQuantity: this.initialLives-1,
       gridAlign: {
         width: this.initialLives - 1,
-        height: 1,
+        height: 20,
         cellWidth: displacement,
-        cellHeight: 30,
+        cellHeight: 50,
         x: firstPosition,
         y: 30
       }
     });
-    this.liveCounter.create();
   }
   liveLost() {
     if (this.liveImages.countActive() == 0) {
@@ -37,6 +32,7 @@ export class LiveCounter {
     }
     let currentLiveLost = this.liveImages.getFirstAlive();
     currentLiveLost.disableBody(true, true);
+    this.liveLostSounds.play();
     return true;
   }
-}
+} 

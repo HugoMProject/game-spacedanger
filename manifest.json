@@ -1,0 +1,27 @@
+{
+    "name": "Space Denger Game",
+    "short_name": "Space Denger",
+    "icons": [
+        {
+            "src": "./icons/nave.png",
+            "sizes": "44x72",
+            "type": "image/png"
+        },
+        {
+            "src": "./icons/nave-95x95.png",
+            "sizes": "95x95",
+            "type": "image/png"
+        },
+        {
+            "src": "./icons/nave-120x120.png",
+            "sizes": "120x120",
+            "type": "image/png"
+        }
+
+    ],
+    "theme_color": "#5E406A",
+    "background_color": "#040505",
+    "display": "fullscreen",
+    "orientation": "landscape",
+    "start_url": "/index.html"
+}

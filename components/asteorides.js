@@ -1,31 +1,55 @@
-
+import { LevelGame } from './levelGame.js'
 export class Asteroides {
     constructor(scene){
         this.asteroidesScene = scene;
+        this.clock = 0;
+        this.runningTime = 0;
+        this.levelgame = new LevelGame(this.asteroidesScene)
     }
     init(){
         this.meteoro1 = 0;
         this.stopasteroidesInterval;
-        this.clock = 0;
-        this.runningTime = 0;
     }
     create(){
         this.asteroides = this.asteroidesScene.physics.add.group({
             defaultKey: 'asteroides',
 
         });
-        this.startAsteroides()
+        this.levelgame.create();
+        this.startAsteroides();
+        
     }
     //selector de nivel en funcion del tiempo
-    // selectorLevel(nowTime){
-    //     if(nowTime == 3){
-    //         this.newAsteroidelevel1();
-    //     }else if(nowTime  == 15){
-    //         this.newAsteroidelevel2();
-    //     }else if(nowTime  == 30){
-    //         this.newAsteroidelevel2();
-    //     }
-    // }
+    selectorLevel(nowTime){
+        if(nowTime <= 150){
+         this.levelgame.incrementlevel('level: 1');
+            this.newAsteroidelevel1();
+            }else if(nowTime <= 200){
+               this.levelgame.incrementlevel('level: 2')
+               this.newAsteroidelevel2();
+               }else if(nowTime <= 500){
+                  this.levelgame.incrementlevel('level: 3')
+                  this.newAsteroidelevel3();
+                  this.newAsteroidelevel2();
+                  }else if(nowTime <= 700){
+                     this.levelgame.incrementlevel('level: 4')
+                     this.newAsteroidelevel3();
+                     this.newAsteroidelevel4();
+                  }else if(nowTime <= 1500){
+               this.levelgame.incrementlevel('level: 5')
+               this.newAsteroidelevel2();
+               this.newAsteroidelevel3();
+               this.newAsteroidelevel4();
+               }else if(nowTime <= 3000){
+                  this.levelgame.incrementlevel('level: imposible')
+                  this.newAsteroidelevel2();
+                  this.newAsteroidelevel3();
+                  this.newAsteroidelevel4();
+                  this.newAsteroidelevel5();
+            }else{
+               this.levelgame.incrementlevel('you win')
+            }
+    }
 
                     // funciones para aumentar la dificultad del juego
      newAsteroidelevel1() {
@@ -40,9 +64,7 @@ export class Asteroides {
                    .setCollideWorldBounds(true)
                    .setCircle(30,3,-4)
                    .setBounce(1)
-                   .setVelocityX(
-                                   (Phaser.Math.Between(0, 1.9) ? 100 : -100)
-                              );
+                   .setVelocityX((Phaser.Math.Between(0, 1.9) ? 150 : -100));
                   }
          if (oneAsteroide1) {
             oneAsteroide1.setActive(true)
@@ -51,12 +73,11 @@ export class Asteroides {
                    .setCollideWorldBounds(true)
                    .setCircle(30,3,-4)
                    .setBounce(1,1)
-                   .setVelocityX(
-                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
-                              );
+                   .setVelocityX((Phaser.Math.Between(0, 1.3) ? 90 : -130));
                   }
      }
      newAsteroidelevel2() {
+      
         // creamos los ateroides y le damos propiedades
         const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.6, 850/2.5), -60);
         const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 1030), -10);
@@ -64,7 +85,7 @@ export class Asteroides {
          if (oneAsteroide) {
             oneAsteroide.setActive(true)
                    .setVisible(true)
-                   .setGravityY(250)
+                   .setGravityY(190)
                    .setCollideWorldBounds(true)
                    .setCircle(30,3,-4)
                    .setBounce(1)
@@ -80,7 +101,7 @@ export class Asteroides {
                    .setCircle(30,3,-4)
                    .setBounce(1,1)
                    .setVelocityX(
-                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                                   (Phaser.Math.Between(0, 1.3) ? 30 : -50)
                               );
                   }
          if (oneAsteroide2) {
@@ -96,7 +117,8 @@ export class Asteroides {
                   }
      }
      newAsteroidelevel3() {
-        // creamos los ateroides y le damos propiedades
+      this.levelgame.incrementlevel('level: 3')
+        // creamos los ateroides y le dos propiedades
         const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.6, 850/2.5), -60);
         const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 1030), -10);
         const oneAsteroide2= this.asteroides.get(Phaser.Math.Between(1.3, 630), -30);
@@ -146,35 +168,152 @@ export class Asteroides {
                               );
                   }
      }
+     newAsteroidelevel4() {
+      this.levelgame.incrementlevel('level: 4')
+        // creamos los ateroides y le damos propiedades
+        const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.6, 850/2.5), -60);
+        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 1030), -10);
+        const oneAsteroide2= this.asteroides.get(Phaser.Math.Between(1.3, 630), -30);
+        const oneAsteroide3= this.asteroides.get(Phaser.Math.Between(1.3, 330), -50);
+        const oneAsteroide4= this.asteroides.get(Phaser.Math.Between(1.3, 863), -15);
+         if (oneAsteroide) {
+            oneAsteroide.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(320)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.9) ? 100 : -100)
+                              );
+                  }
+         if (oneAsteroide1) {
+            oneAsteroide1.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(250)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                              );
+                  }
+         if (oneAsteroide2) {
+            oneAsteroide2.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(250)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 50 : -30)
+                              );
+                  }
+         if (oneAsteroide3) {
+            oneAsteroide3.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(330)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                              );
+                  }
+         if (oneAsteroide4) {
+            oneAsteroide4.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(430)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                              );
+                  }
+     }
+     newAsteroidelevel5() {
+      this.levelgame.incrementlevel('level: imposible')
+        // creamos los ateroides y le damos propiedades
+        const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.6, 850/2.5), -60);
+        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 1030), -10);
+        const oneAsteroide2= this.asteroides.get(Phaser.Math.Between(1.3, 630), -30);
+        const oneAsteroide3= this.asteroides.get(Phaser.Math.Between(1.3, 330), -50);
+        const oneAsteroide4= this.asteroides.get(Phaser.Math.Between(1.3, 863), -15);
+         if (oneAsteroide) {
+            oneAsteroide.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(320)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.9) ? 100 : -100)
+                              );
+                  }
+         if (oneAsteroide1) {
+            oneAsteroide1.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(250)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                              );
+                  }
+         if (oneAsteroide2) {
+            oneAsteroide2.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(250)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 50 : -30)
+                              );
+                  }
+         if (oneAsteroide3) {
+            oneAsteroide3.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(330)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                              );
+                  }
+         if (oneAsteroide4) {
+            oneAsteroide4.setActive(true)
+                   .setVisible(true)
+                   .setGravityY(430)
+                   .setCollideWorldBounds(true)
+                   .setCircle(30,3,-4)
+                   .setBounce(1,1)
+                   .setVelocityX(
+                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                              );
+                  }
+     }
      startAsteroides(){
+      let Clock = Date.now() - this.clock;
         this.stopasteroidesInterval = setInterval(() => {
+         let runningTime = Date.now() - Clock;
     //      seteamos los datos para que los imprima en la pantalla
-            this.newAsteroidelevel1()
+            this.selectorLevel(this.calculateTime(runningTime));
           }, 1000);
      }
-    //  calculateTime(runningTime){
-    //     const total_seconds = Math.floor(runningTime/1000);
-    //     const total_minutes = Math.floor(total_seconds/60);
-    //     const total_horas = Math.floor(total_minutes/60);
-            
-    //     const display_seconds = (total_seconds % 60).toString().padStart(2, "0");
-    //     const display_minutes = (total_minutes % 60).toString().padStart(2, "0");
-    //     const display_horas = total_horas.toString().padStart(2, "0");
-        
-    //         return `${display_horas}:${display_minutes}:${display_seconds}`
-    // }
+     calculateTime(runningTime){
+        const total_seconds = Math.floor(runningTime/1000);     
+        const display_seconds = total_seconds.toString().padStart(2, "0");
+            return display_seconds;
+    }
 
      stopAsteroides(){
         clearInterval(this.stopasteroidesInterval);
         this.meteoro1 = 0;
     }
-
-     update(time){
-        if (time > this.meteoro1) {
-            this.newAsteroide()
-            this.meteoro1 += 2000;
-        }
-     }
 
 
 }

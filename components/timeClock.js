@@ -9,7 +9,7 @@ export class TimeClock{
     
     create(){
         this.clockText = this.timegame.add.text(16, 16, `00:00:00`, { 
-            fontSize: '20px', 
+            fontSize: '25px', 
             fill: '#fff', 
             fontFamily: 'verdana, arial, sans-serif',
             zIndex:3 
