@@ -22,7 +22,6 @@ export class Game extends Phaser.Scene {
       this.load.image('background', 'https://th.bing.com/th/id/R.a2087a5e90f90bc454a75a6c1ea5c316?rik=LGxsh%2bzXtHLApg&pid=ImgRaw&r=0');
       this.load.image('gameover', 'assets/gameover.png');
       this.load.image('nave', 'assets/nave.png');
-      this.load.image('imgFullscreen','assets/pantallaCompleta.png')
       // sonidos del juego
       this.load.audio('startgamesample', 'sounds/start-game.ogg');
       this.load.audio('livelost', 'sounds/sounds_brick-impact.ogg');
@@ -30,6 +29,7 @@ export class Game extends Phaser.Scene {
       //controles del juego
       this.load.image('btn-left', './assets/btn-left-100x100.png');
       this.load.image('btn-right', './assets/btn-right-100x100.png');
+      this.load.image('imgFullscreen','assets/pantallaCompleta.png')
 
     }
   
@@ -37,6 +37,16 @@ export class Game extends Phaser.Scene {
         this.physics.world.setBoundsCollision(true,true,false,false)
         this.add.image(500, 300,'background').setScale(1.5);
         this.startGameSample = this.sound.add('startgamesample');
+          //pantalla completa
+          let fullscreem = this.add.image(950,60,'imgFullscreen');
+          fullscreem.setInteractive().on('pointerdown',()=>{
+            if(this.scale.isFullscreen == false){
+  
+              this.scale.startFullscreen();
+            }else{
+              this.scale.stopFullscreen();
+            }
+          });
         //asteroides
         this.newasteroides.create();
         // creamos los controles 
@@ -61,17 +71,6 @@ export class Game extends Phaser.Scene {
         //nave espacial
       this.naveSpace.create();
         // creamos los sonidos del juego
-
-        //pantalla completa
-        let fullscreem = this.add.image(950,60,'imgFullscreen');
-        fullscreem.setInteractive().on('pointerdown',()=>{
-          if(this.scale.isFullscreen == false){
-
-            this.scale.startFullscreen();
-          }else{
-            this.scale.stopFullscreen();
-          }
-        })
 
         this.cursors = this.input.keyboard.createCursorKeys();
         // con esto indicamos la colicion del juego 
