@@ -22,7 +22,7 @@ export class Game extends Phaser.Scene {
       this.load.image('background', 'https://th.bing.com/th/id/R.a2087a5e90f90bc454a75a6c1ea5c316?rik=LGxsh%2bzXtHLApg&pid=ImgRaw&r=0');
       this.load.image('gameover', 'assets/gameover.png');
       this.load.image('nave', 'assets/nave.png');
-      this.load.image('imgFullscreen','assets/fullscreen-70x50.png')
+      this.load.image('imgFullscreen','assets/pantallaCompleta.png')
       // sonidos del juego
       this.load.audio('startgamesample', 'sounds/start-game.ogg');
       this.load.audio('livelost', 'sounds/sounds_brick-impact.ogg');
