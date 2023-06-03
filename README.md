@@ -1,4 +1,4 @@
-# game-spacedanger
+# game space danger
 
 ## juego creado con phaser, para jugarlo en movil debes volter el celular y luego recargar la pagina para que se centre. 
 
