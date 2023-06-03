@@ -22,27 +22,27 @@ export class Game extends Phaser.Scene {
       this.load.image('background', 'https://th.bing.com/th/id/R.a2087a5e90f90bc454a75a6c1ea5c316?rik=LGxsh%2bzXtHLApg&pid=ImgRaw&r=0');
       this.load.image('gameover', 'assets/gameover.png');
       this.load.image('nave', 'assets/nave.png');
+      this.load.image('imgFullscreen','assets/fullscreen-70x50.png')
       // sonidos del juego
       this.load.audio('startgamesample', 'sounds/start-game.ogg');
       this.load.audio('livelost', 'sounds/sounds_brick-impact.ogg');
+      this.load.audio('newlevel', 'sounds/start-game.ogg');
       //controles del juego
-      this.load.image('btn-left', './assets/btn-left-80x80.png');
-      this.load.image('btn-right', './assets/btn-right-80x80.png');
+      this.load.image('btn-left', './assets/btn-left-100x100.png');
+      this.load.image('btn-right', './assets/btn-right-100x100.png');
 
     }
   
     create() {
         this.physics.world.setBoundsCollision(true,true,false,false)
-        this.add.image(500, 300,'background');
-        this.gameoverImage = this.add.image(500, 250,'gameover');
-        this.gameoverImage.visible  = false;
+        this.add.image(500, 300,'background').setScale(1.5);
         this.startGameSample = this.sound.add('startgamesample');
         //asteroides
         this.newasteroides.create();
-        // creamos el joystick 
-        this.btnLeftImg = this.add.image(100,550,'btn-left').setInteractive();
+        // creamos los controles 
+        this.btnLeftImg = this.add.image(100,530,'btn-left').setInteractive();
         this.btnControlLeft =  false;// variable del boton por defecto
-        this.btnRightImg = this.add.image(850,550,'btn-right').setInteractive();
+        this.btnRightImg = this.add.image(900,530,'btn-right').setInteractive();
         this.btnControlRight =  false;// variable del boton por defecto
           //controles del boton hacia la izquierda
         this.btnLeftImg.on('pointerdown', ()=>{
@@ -61,6 +61,17 @@ export class Game extends Phaser.Scene {
         //nave espacial
       this.naveSpace.create();
         // creamos los sonidos del juego
+
+        //pantalla completa
+        let fullscreem = this.add.image(950,60,'imgFullscreen');
+        fullscreem.setInteractive().on('pointerdown',()=>{
+          if(this.scale.isFullscreen == false){
+
+            this.scale.startFullscreen();
+          }else{
+            this.scale.stopFullscreen();
+          }
+        })
 
         this.cursors = this.input.keyboard.createCursorKeys();
         // con esto indicamos la colicion del juego 
@@ -86,10 +97,7 @@ export class Game extends Phaser.Scene {
             this.scene.pause();
         }
     }
-    // futuraS funcion para disparar desde la nave
-    // hitAsteroide(naveImage, asteroides) {
-    //     asteroides.destroy();
-    // }
+
   
 
     endGame(completed = false){

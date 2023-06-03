@@ -12,11 +12,15 @@ export class Asteroides {
         this.meteoro1 = 0;
         this.stopasteroidesInterval;
     }
+    preload(){
+      this.load.audio('newlevel', 'sounds/start-game.ogg');
+    }
     create(){
         this.asteroides = this.asteroidesScene.physics.add.group({
             defaultKey: 'asteroides',
 
         });
+        this.newLevel= this.asteroidesScene.sound.add('newlevel');
         this.levelgame.create();
         this.startAsteroides();
         
@@ -26,23 +30,23 @@ export class Asteroides {
         if(nowTime <= 150){
          this.levelgame.incrementlevel('level: 1');
             this.newAsteroidelevel1();
-            }else if(nowTime <= 400){
+            }else if(nowTime <= 240){
                this.levelgame.incrementlevel('level: 2')
                this.newAsteroidelevel2();
-               }else if(nowTime <= 600){
+               }else if(nowTime <= 360){
                   this.levelgame.incrementlevel('level: 3')
                   this.newAsteroidelevel3();
                   this.newAsteroidelevel2();
-                  }else if(nowTime <= 900){
+                  }else if(nowTime <= 500){
                      this.levelgame.incrementlevel('level: 4')
                      this.newAsteroidelevel3();
                      this.newAsteroidelevel4();
-                  }else if(nowTime <= 1500){
+                  }else if(nowTime <= 720){
                      this.levelgame.incrementlevel('level: 5')
                      this.newAsteroidelevel2();
                      this.newAsteroidelevel3();
                      this.newAsteroidelevel4();
-               }else if(nowTime <= 5000){
+               }else if(nowTime <= 900){
                   this.levelgame.incrementlevel('level: imposible')
                   this.newAsteroidelevel2();
                   this.newAsteroidelevel3();
@@ -51,6 +55,23 @@ export class Asteroides {
             }else{
                this.asteroidesScene.endGame(true)
             }
+    }
+    levelsounds(nowtime){
+      if(nowtime == 1){
+         this.newLevel.play()
+      }else if(nowtime==150){
+         this.newLevel.play()
+      }else if(nowtime==240){
+         this.newLevel.play()
+      }else if(nowtime==360){
+         this.newLevel.play()
+      }else if(nowtime==500){
+         this.newLevel.play()
+      }else if(nowtime==720){
+         this.newLevel.play()
+      }else if(nowtime==900){
+         this.newLevel.play()
+      }
     }
 
                     // funciones para aumentar la dificultad del juego
@@ -304,6 +325,7 @@ export class Asteroides {
          let runningTime = Date.now() - Clock;
     //      seteamos los datos para que los imprima en la pantalla
             this.selectorLevel(this.calculateTime(runningTime));
+            this.levelsounds(this.calculateTime(runningTime));
           }, 1000);
      }
      calculateTime(runningTime){
