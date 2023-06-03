@@ -1,10 +1,12 @@
-import { LevelGame } from './levelGame.js'
+import { LevelGame } from './levelGame.js';
+import { TimeClock } from '../components/timeClock.js'
 export class Asteroides {
     constructor(scene){
         this.asteroidesScene = scene;
         this.clock = 0;
         this.runningTime = 0;
         this.levelgame = new LevelGame(this.asteroidesScene)
+        this.timeClock = new TimeClock(this.asteroidesScene)
     }
     init(){
         this.meteoro1 = 0;
@@ -24,30 +26,30 @@ export class Asteroides {
         if(nowTime <= 150){
          this.levelgame.incrementlevel('level: 1');
             this.newAsteroidelevel1();
-            }else if(nowTime <= 200){
+            }else if(nowTime <= 400){
                this.levelgame.incrementlevel('level: 2')
                this.newAsteroidelevel2();
-               }else if(nowTime <= 500){
+               }else if(nowTime <= 600){
                   this.levelgame.incrementlevel('level: 3')
                   this.newAsteroidelevel3();
                   this.newAsteroidelevel2();
-                  }else if(nowTime <= 700){
+                  }else if(nowTime <= 900){
                      this.levelgame.incrementlevel('level: 4')
                      this.newAsteroidelevel3();
                      this.newAsteroidelevel4();
                   }else if(nowTime <= 1500){
-               this.levelgame.incrementlevel('level: 5')
-               this.newAsteroidelevel2();
-               this.newAsteroidelevel3();
-               this.newAsteroidelevel4();
-               }else if(nowTime <= 3000){
+                     this.levelgame.incrementlevel('level: 5')
+                     this.newAsteroidelevel2();
+                     this.newAsteroidelevel3();
+                     this.newAsteroidelevel4();
+               }else if(nowTime <= 5000){
                   this.levelgame.incrementlevel('level: imposible')
                   this.newAsteroidelevel2();
                   this.newAsteroidelevel3();
                   this.newAsteroidelevel4();
                   this.newAsteroidelevel5();
             }else{
-               this.levelgame.incrementlevel('you win')
+               this.asteroidesScene.endGame(true)
             }
     }
 
@@ -80,7 +82,7 @@ export class Asteroides {
       
         // creamos los ateroides y le damos propiedades
         const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.6, 850/2.5), -60);
-        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 1030), -10);
+        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 930), -10);
         const oneAsteroide2= this.asteroides.get(Phaser.Math.Between(1.3, 630), -30);
          if (oneAsteroide) {
             oneAsteroide.setActive(true)
@@ -120,7 +122,7 @@ export class Asteroides {
       this.levelgame.incrementlevel('level: 3')
         // creamos los ateroides y le dos propiedades
         const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.6, 850/2.5), -60);
-        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 1030), -10);
+        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 930), -10);
         const oneAsteroide2= this.asteroides.get(Phaser.Math.Between(1.3, 630), -30);
         const oneAsteroide3= this.asteroides.get(Phaser.Math.Between(1.3, 330), -50);
          if (oneAsteroide) {
@@ -172,7 +174,7 @@ export class Asteroides {
       this.levelgame.incrementlevel('level: 4')
         // creamos los ateroides y le damos propiedades
         const oneAsteroide= this.asteroides.get(Phaser.Math.Between(1.6, 850/2.5), -60);
-        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 1030), -10);
+        const oneAsteroide1= this.asteroides.get(Phaser.Math.Between(1.3, 930), -10);
         const oneAsteroide2= this.asteroides.get(Phaser.Math.Between(1.3, 630), -30);
         const oneAsteroide3= this.asteroides.get(Phaser.Math.Between(1.3, 330), -50);
         const oneAsteroide4= this.asteroides.get(Phaser.Math.Between(1.3, 863), -15);
@@ -195,13 +197,13 @@ export class Asteroides {
                    .setCircle(30,3,-4)
                    .setBounce(1,1)
                    .setVelocityX(
-                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                                   (Phaser.Math.Between(0, 1.3) ? 120 : -120)
                               );
                   }
          if (oneAsteroide2) {
             oneAsteroide2.setActive(true)
                    .setVisible(true)
-                   .setGravityY(250)
+                   .setGravityY(260)
                    .setCollideWorldBounds(true)
                    .setCircle(30,3,-4)
                    .setBounce(1,1)
@@ -217,7 +219,7 @@ export class Asteroides {
                    .setCircle(30,3,-4)
                    .setBounce(1,1)
                    .setVelocityX(
-                                   (Phaser.Math.Between(0, 1.3) ? 90 : -80)
+                                   (Phaser.Math.Between(0, 1.3) ? 130 : -80)
                               );
                   }
          if (oneAsteroide4) {
@@ -309,7 +311,6 @@ export class Asteroides {
         const display_seconds = total_seconds.toString().padStart(2, "0");
             return display_seconds;
     }
-
      stopAsteroides(){
         clearInterval(this.stopasteroidesInterval);
         this.meteoro1 = 0;

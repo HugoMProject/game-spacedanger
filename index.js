@@ -13,8 +13,8 @@ const config = {
     width:(mediaQuery.matches ? window.innerWidth : 1000),
     height: (mediaQuery.matches ? window.innerHeight : 600),
     mode: Phaser.Scale.FIT,
-    // autoCenter: Phaser.Scale.CENTER_BOTH
-    autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
+     autoCenter: Phaser.Scale.CENTER_BOTH
+    //autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
   },
   scene: [Game,GameOver,Winner],
   physics: {

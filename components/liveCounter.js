@@ -1,3 +1,4 @@
+
 export class LiveCounter {
   // Código de la clase para la gestión de vidas del jugador
     constructor(scene, initialLives) {
@@ -8,6 +9,7 @@ export class LiveCounter {
   loader(){
     this.load.image('nave', 'assets/nave.png');  }
   create() {
+    
     this.liveLostSounds = this.relatedScene.sound.add('livelost')
     let displacement = 50;
     let firstPosition = 900 - ((this.initialLives - 1) * displacement);

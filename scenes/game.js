@@ -2,8 +2,8 @@
 import { Asteroides } from '../components/asteorides.js';
 import { LevelGame } from '../components/levelGame.js';
 import { TimeClock } from '../components/timeClock.js';
-import { NaveSpace } from '../components/naveSpace.js'
-import { LiveCounter } from '../components/liveCounter.js'
+import { NaveSpace } from '../components/naveSpace.js';
+import { LiveCounter } from '../components/liveCounter.js';
 export class Game extends Phaser.Scene {
 
     constructor() {
@@ -18,15 +18,17 @@ export class Game extends Phaser.Scene {
         this.liveCounter = new LiveCounter(this, 3);
     }
     preload() {
-        this.load.image('asteroides', 'assets/asteroideNew.png');
-        this.load.image('background', 'https://th.bing.com/th/id/R.a2087a5e90f90bc454a75a6c1ea5c316?rik=LGxsh%2bzXtHLApg&pid=ImgRaw&r=0');
-        this.load.image('gameover', 'assets/gameover.png');
-        this.load.image('nave', 'assets/nave.png');
-        // sonidos del juego
-        this.load.audio('startgamesample', 'sounds/start-game.ogg');
-        this.load.audio('livelost', 'sounds/sounds_brick-impact.ogg');
-        let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
-        this.load.plugin('rexvirtualjoystickplugin', url, true);
+      this.load.image('asteroides', 'assets/asteroideNew.png');
+      this.load.image('background', 'https://th.bing.com/th/id/R.a2087a5e90f90bc454a75a6c1ea5c316?rik=LGxsh%2bzXtHLApg&pid=ImgRaw&r=0');
+      this.load.image('gameover', 'assets/gameover.png');
+      this.load.image('nave', 'assets/nave.png');
+      // sonidos del juego
+      this.load.audio('startgamesample', 'sounds/start-game.ogg');
+      this.load.audio('livelost', 'sounds/sounds_brick-impact.ogg');
+      //controles del juego
+      this.load.image('btn-left', './assets/btn-left-80x80.png');
+      this.load.image('btn-right', './assets/btn-right-80x80.png');
+
     }
   
     create() {
@@ -37,22 +39,28 @@ export class Game extends Phaser.Scene {
         this.startGameSample = this.sound.add('startgamesample');
         //asteroides
         this.newasteroides.create();
-       
-
         // creamos el joystick 
-        this.joyStick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
-            x: 855,
-            y: 480,
-            radius: 100,
-            base: this.add.circle(0, 0, 50, 0x888888),
-            thumb: this.add.circle(0, 0, 25, 0xcccccc),
-      });
-      this.joystickCursors = this.joyStick.createCursorKeys();
-    
+        this.btnLeftImg = this.add.image(100,550,'btn-left').setInteractive();
+        this.btnControlLeft =  false;// variable del boton por defecto
+        this.btnRightImg = this.add.image(850,550,'btn-right').setInteractive();
+        this.btnControlRight =  false;// variable del boton por defecto
+          //controles del boton hacia la izquierda
+        this.btnLeftImg.on('pointerdown', ()=>{
+          this.btnControlLeft =  true;
+        });
+        this.btnLeftImg.on('pointerup', ()=>{
+          this.btnControlLeft =  false;
+        });
+        // controles del boton hacia la derecha
+        this.btnRightImg.on('pointerdown', ()=>{
+          this.btnControlRight =  true;
+        });
+        this.btnRightImg.on('pointerup', ()=>{
+          this.btnControlRight =  false;
+        });
         //nave espacial
       this.naveSpace.create();
         // creamos los sonidos del juego
-        
 
         this.cursors = this.input.keyboard.createCursorKeys();
         // con esto indicamos la colicion del juego 
@@ -69,7 +77,8 @@ export class Game extends Phaser.Scene {
      //funcion para detener el juego cuando se produsca la colicion
      asteroideImpact(naveImage, asteroides) {
         this.naveSpace.naveImage.setData('crash', true)
-        let gameNotfinished = this.liveCounter.liveLost()
+        let gameNotfinished = this.liveCounter.liveLost();
+        asteroides.setBounce(1)
         if(!gameNotfinished){
             this.timeclock.stopTime();
             this.newasteroides.stopAsteroides();
@@ -81,26 +90,25 @@ export class Game extends Phaser.Scene {
     // hitAsteroide(naveImage, asteroides) {
     //     asteroides.destroy();
     // }
-    
-    // asteroidesEvitados() {
-    //     //funcion para aumentar los puntos, con los meteoros esquivados
-    //     this.scoregame.incrementpoints(1)
-    // }
+  
 
     endGame(completed = false){
         if(!completed){
           this.scene.start('gameover');
         }else{
-          console.log('has ganado');
+          this.timeclock.stopTime();
+          this.newasteroides.stopAsteroides();
+          this.scene.start('winner');
         }
       }
     
     update(){
-        if(this.cursors.left.isDown||this.joystickCursors.left.isDown){
+        if(this.cursors.left.isDown||this.btnControlLeft){
             this.naveSpace.naveImage.setVelocityX(-400);
-        }else if(this.cursors.right.isDown||this.joystickCursors.right.isDown){
+        }else if(this.cursors.right.isDown||this.btnControlRight){
             this.naveSpace.naveImage.setVelocityX(400);
-        }else {
+        }
+        else {
             this.naveSpace.naveImage.setVelocity(0, 0);
         }
 

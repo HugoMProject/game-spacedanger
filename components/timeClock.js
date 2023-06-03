@@ -9,7 +9,7 @@ export class TimeClock{
     
     create(){
         this.clockText = this.timegame.add.text(16, 20, `00:00:00`, { 
-            fontSize: '25px', 
+            fontSize: '30px', 
             fill: '#fff', 
             fontFamily: 'verdana, arial, sans-serif',
             zIndex:3 
@@ -43,6 +43,9 @@ export class TimeClock{
 
         stopTime(){
             clearInterval(this.stopwatchInterval);
-            this.clockText.setText('00:00:00');
+            this.clockText.setText(`00:00:00`);
+        }
+        stopclockGame(){
+            clearInterval(this.stopwatchInterval);
         }
 }
