@@ -26,6 +26,7 @@ export class Game extends Phaser.Scene {
       this.load.audio('startgamesample', 'sounds/start-game.ogg');
       this.load.audio('livelost', 'sounds/sounds_brick-impact.ogg');
       this.load.audio('newlevel', 'sounds/start-game.ogg');
+      this.load.audio('bandasonora','sounds/space-sounds.mp3');
       //controles del juego
       this.load.image('btn-left', './assets/btn-left-100x100.png');
       this.load.image('btn-right', './assets/btn-right-100x100.png');
@@ -34,11 +35,13 @@ export class Game extends Phaser.Scene {
     }
   
     create() {
-        this.physics.world.setBoundsCollision(true,true,false,false)
+        this.physics.world.setBoundsCollision(true,true,false,false);
         this.add.image(500, 300,'background').setScale(1.5);
+        this.bandaSonora = this.sound.add('bandasonora');
+        this.bandaSonora.volume = 0.1;
         this.startGameSample = this.sound.add('startgamesample');
           //pantalla completa
-          let fullscreem = this.add.image(950,60,'imgFullscreen');
+          let fullscreem = this.add.image(950,40,'imgFullscreen').setScale(0.6);
           fullscreem.setInteractive().on('pointerdown',()=>{
             if(this.scale.isFullscreen == false){
   
@@ -83,7 +86,6 @@ export class Game extends Phaser.Scene {
            this.liveCounter.create();
     }
 
-
      //funcion para detener el juego cuando se produsca la colicion
      asteroideImpact(naveImage, asteroides) {
         this.naveSpace.naveImage.setData('crash', true)
@@ -102,6 +104,7 @@ export class Game extends Phaser.Scene {
     endGame(completed = false){
         if(!completed){
           this.scene.start('gameover');
+          this.bandaSonora.pause();
         }else{
           this.timeclock.stopTime();
           this.newasteroides.stopAsteroides();

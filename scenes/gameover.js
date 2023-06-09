@@ -15,6 +15,7 @@ export class GameOver extends Phaser.Scene {
         this.add.image(500, 300,'background').setScale(1.5);
         this.gameoverImage = this.add.image(500, 150,'gameover');
         this.gameOverSample = this.sound.add('gameoversample');
+        this.gameOverSample.volume = 0.3;
         this.gameOverSample.play();
         this.restartbutton.create();
         
