@@ -1,6 +1,7 @@
 import { Game } from './scenes/game.js';
 import { Winner} from './scenes/winner.js';
 import {GameOver} from './scenes/gameover.js';
+import { StartGame } from './scenes/startGame.js';
 
 //    Por medio de una condicional, le dices que si esta en un celular entonces en
 //    ancho del Canvas debe ser igual al ancho de la ventana, sino, pues le das el ancho que tu quieras.
@@ -16,7 +17,7 @@ const config = {
      autoCenter: Phaser.Scale.CENTER_BOTH
     //autoCenter: Phaser.Scale.CENTER_HORIZONTALLY
   },
-  scene: [Game,GameOver,Winner],
+  scene: [StartGame,Game,GameOver,Winner],
   physics: {
     default: 'arcade',
     arcade: {
