@@ -12,6 +12,18 @@ export class Winner extends Phaser.Scene{
     create(){
         this.add.image(500, 300,'background');
         this.congratulationsImage = this.add.image(500, 150,'congratulations');
+        this.agradecimineto = this.add.text(20, 10, 'Gracias por haber jugado...', { 
+            fontSize: '25px',
+            fill: '#fff', 
+            fontFamily: 'verdana, arial, sans-serif',
+            zIndex:3 
+          });
+          this.desarrollado = this.add.text(550, 550, 'Desarrollado por Hugo Moyano...', { 
+            fontSize: '25px',
+            fill: '#fff', 
+            fontFamily: 'verdana, arial, sans-serif',
+            zIndex:3 
+          });
         this.youWinsAmple = this.sound.add('youwinsample');
         this.youWinsAmple.play();
         this.restartbutton.create();

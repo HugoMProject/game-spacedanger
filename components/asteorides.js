@@ -19,9 +19,6 @@ export class Asteroides {
     }
     create(){
       this.bandaSonora = this.asteroidesScene.sound.add('bandasonora');
-      // this.sound.setDecodedCallback([  this.bandaSonora ], function(){
-         // Es seguro usar los sonidos
-      // }, this);
         this.asteroides = this.asteroidesScene.physics.add.group({
             defaultKey: 'asteroides',
 

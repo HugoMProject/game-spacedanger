@@ -2,7 +2,6 @@ export class LevelGame {
 
     constructor(scene){
         this.levelgame = scene;
-        this.score = 1;
     }
 
     create(){

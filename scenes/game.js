@@ -53,11 +53,16 @@ export class Game extends Phaser.Scene {
         //asteroides
         this.newasteroides.create();
         // creamos los controles 
-        this.btnLeftImg = this.add.image(100,530,'btn-left').setInteractive();
-        this.btnControlLeft =  false;// variable del boton por defecto
-        this.btnRightImg = this.add.image(900,530,'btn-right').setInteractive();
-        this.btnControlRight =  false;// variable del boton por defecto
-          //controles del boton hacia la izquierda
+        const mediaQuery = window.matchMedia("(orientation: portrait)");
+        console.log(mediaQuery.matches)
+        // creamos una condicion para saber si esta en un celular o en un ordenador
+        if(mediaQuery.matches === false && screen.width < 750){
+          //si es falso creamos los controles 
+          this.btnLeftImg = this.add.image(100,530,'btn-left').setInteractive();
+          this.btnControlLeft =  false;// variable del boton por defecto
+          this.btnRightImg = this.add.image(900,530,'btn-right').setInteractive();
+          this.btnControlRight =  false;// variable del boton por defecto
+                    //controles del boton hacia la izquierda
         this.btnLeftImg.on('pointerdown', ()=>{
           this.btnControlLeft =  true;
         });
@@ -71,6 +76,10 @@ export class Game extends Phaser.Scene {
         this.btnRightImg.on('pointerup', ()=>{
           this.btnControlRight =  false;
         });
+        // De lo contrario no creamos los controles.
+        };
+
+
         //nave espacial
       this.naveSpace.create();
         // creamos los sonidos del juego
@@ -101,7 +110,7 @@ export class Game extends Phaser.Scene {
 
   
 
-    endGame(completed = false){
+    endGame(completed = true){
         if(!completed){
           this.scene.start('gameover');
           this.bandaSonora.pause();
