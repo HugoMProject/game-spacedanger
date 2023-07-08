@@ -110,7 +110,7 @@ export class Game extends Phaser.Scene {
 
   
 
-    endGame(completed = true){
+    endGame(completed = false){
         if(!completed){
           this.scene.start('gameover');
           this.bandaSonora.pause();
