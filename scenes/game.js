@@ -56,7 +56,7 @@ export class Game extends Phaser.Scene {
         const mediaQuery = window.matchMedia("(orientation: portrait)");
         console.log(mediaQuery.matches)
         // creamos una condicion para saber si esta en un celular o en un ordenador
-        if(mediaQuery.matches === false && screen.width < 750){
+        if(mediaQuery.matches === false && screen.width < 1000){
           //si es falso creamos los controles 
           this.btnLeftImg = this.add.image(100,530,'btn-left').setInteractive();
           this.btnControlLeft =  false;// variable del boton por defecto
